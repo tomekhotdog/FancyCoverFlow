@@ -361,6 +361,25 @@ public class FancyCoverFlow extends Gallery {
         return true;
     }
 
+    @Override
+    protected int getChildDrawingOrder(int childCount, int i) {
+        int selectedIndex = getSelectedItemPosition() - getFirstVisiblePosition();
+
+        // Just to be safe
+        if (selectedIndex < 0) return i;
+
+        if (i == childCount - 1) {
+            // Draw the selected child last
+            return selectedIndex;
+        } else if (i >= selectedIndex) {
+            // Move the children after the selected child so as to stack them, order increasing as we approach selected child
+            return getLastVisiblePosition() - getFirstVisiblePosition() - (i - selectedIndex);
+        } else {
+            // Keep the children before the selected child the same
+            return i;
+        }
+    }
+
     // =============================================================================
     // Public classes
     // =============================================================================
